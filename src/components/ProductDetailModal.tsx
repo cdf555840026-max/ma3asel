@@ -281,7 +281,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   className="w-full flex items-center justify-center gap-2 px-5 py-3.5 text-base font-semibold text-white bg-[#1E2022] hover:bg-[#323639] dark:bg-[#D4AF37] dark:text-[#121214] dark:hover:bg-[#E0BC48] rounded-md transition-all shadow-md hover:shadow-lg cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1E2022] dark:focus-visible:ring-[#D4AF37]"
                 >
                   <MessageCircle className="w-5 h-5 text-[#D8B26E] dark:text-[#121214]" />
-                  <span>اطلب هذا الموديل عبر واتساب</span>
+                  <span>اطلب الآن</span>
                   <ArrowUpLeft className="w-4 h-4 opacity-70" />
                 </a>
                 <p className="text-center text-[11px] text-[#8C8479] dark:text-[#7A746B]">

@@ -46,6 +46,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
+  // All unique categories previously used or baseline presets
+  const existingCategories = React.useMemo(() => {
+    const set = new Set<string>();
+    CATEGORIES.filter((c) => c !== 'جميع الموديلات').forEach((c) => set.add(c));
+    products.forEach((p) => {
+      if (p.category && p.category.trim()) {
+        set.add(p.category.trim());
+      }
+    });
+    return Array.from(set);
+  }, [products]);
+
   // Settings form local state
   const [configForm, setConfigForm] = useState<SiteConfig>({ ...siteConfig });
   const [settingsSaved, setSettingsSaved] = useState(false);
@@ -439,20 +451,52 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               {/* Row 2: Category, Price & Badge */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-[#2D2A26] dark:text-[#E8E4DC] mb-1.5">
-                    التصنيف
-                  </label>
-                  <select
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-bold text-[#2D2A26] dark:text-[#E8E4DC]">
+                      التصنيف *
+                    </label>
+                    <span className="text-[10px] text-[#8C8479]">
+                      اكتب أو اختر
+                    </span>
+                  </div>
+                  {/* Typeable Category Input with datalist autocomplete */}
+                  <input
+                    type="text"
+                    list="category-suggestions"
+                    required
                     value={productForm.category}
                     onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
+                    placeholder="اكتب تصنيفاً جديداً..."
                     className="w-full px-3.5 py-2 text-sm bg-[#FAF8F5] dark:bg-[#1A1A1E] border border-[#DDD5C7] dark:border-[#2E2E34] rounded-md focus:border-[#9A7B38] dark:focus:border-[#D4AF37] focus:outline-hidden text-[#1E2022] dark:text-white"
-                  >
-                    {CATEGORIES.filter((c) => c !== 'جميع الموديلات').map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
+                  />
+                  <datalist id="category-suggestions">
+                    {existingCategories.map((cat) => (
+                      <option key={cat} value={cat} />
                     ))}
-                  </select>
+                  </datalist>
+
+                  {/* Clickable Quick-Select Badges of previously used categories */}
+                  <div className="mt-2">
+                    <span className="text-[10px] text-[#7A7368] dark:text-[#9A9387] block mb-1">
+                      تصنيفات سابقة (انقر للاختيار المباشر):
+                    </span>
+                    <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto">
+                      {existingCategories.map((cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => setProductForm({ ...productForm, category: cat })}
+                          className={`px-2 py-0.5 text-[11px] rounded transition-colors cursor-pointer border ${
+                            productForm.category === cat
+                              ? 'bg-[#1E2022] text-white dark:bg-[#D4AF37] dark:text-[#121214] border-transparent font-bold'
+                              : 'bg-[#F2EDE4] dark:bg-[#1F1F24] text-[#4F4A42] dark:text-[#C7C2B6] border-[#DDD5C7] dark:border-[#333238] hover:bg-[#E5DDD0] dark:hover:bg-[#2A2A30]'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 <div>

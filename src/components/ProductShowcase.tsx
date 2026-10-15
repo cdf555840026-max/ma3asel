@@ -21,14 +21,24 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
 
   const availableCategories = useMemo(() => {
     const list: string[] = ['جميع الموديلات'];
+    const allCategoriesInProducts = Array.from(
+      new Set(products.map((p) => p.category?.trim()).filter(Boolean))
+    );
+
+    // Preferred order from predefined baseline categories
     CATEGORIES.forEach((cat) => {
-      if (cat !== 'جميع الموديلات') {
-        const hasProducts = products.some((p) => p.category === cat);
-        if (hasProducts) {
-          list.push(cat);
-        }
+      if (cat !== 'جميع الموديلات' && allCategoriesInProducts.includes(cat)) {
+        list.push(cat);
       }
     });
+
+    // Add any custom categories typed by the admin
+    allCategoriesInProducts.forEach((cat) => {
+      if (!list.includes(cat)) {
+        list.push(cat);
+      }
+    });
+
     return list;
   }, [products]);
 
