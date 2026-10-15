@@ -1,0 +1,8 @@
+{
+  "name": "مَرمَرِيس للرخام الفاخر | مغاسل ووحدات رخامية مخصصة",
+  "description": "معرض راقٍ ومخصص لمغاسل الرخام الطبيعي والمغاسل العصرية الفاخرة، مع إمكانية تصميم وتنفيذ مغاسل مخصصة والطلب الفوري عبر واتساب.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
